@@ -9,7 +9,10 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <iostream>
 #include <vector>
+
+using namespace std;
 
 // Defintions
 constexpr double frame_rate = 60.0; // refresh rate
@@ -67,8 +70,21 @@ public:
 class sheep : public animal {
   // todo
   // implement functions that are purely virtual in base class
+  public:
   sheep(SDL_Surface* window_surface_ptr_): animal("media/sheep.png", window_surface_ptr_){};
-  void move(){};
+  void move(){
+
+      if(_pos[0]+_velocite[0]<0 || _pos[0]+_velocite[0]>430)
+      {
+        _velocite[0]*=-1;
+      }
+      if(_pos[1]+_velocite[1]<0 || _pos[1]+_velocite[1]>430)
+      {
+        _velocite[1]*=-1;
+      }
+      _pos[0]+=_velocite[0];
+      _pos[1]+=_velocite[1];
+  };
 };
 
 // Insert here:
@@ -84,16 +100,41 @@ private:
   SDL_Surface* window_surface_ptr_;
 
   // Some attribute to store all the wolves and sheep
-  // here
+  public:
+  vector<animal> animals;
 
 public:
-  ground(SDL_Surface* window_surface_ptr); // todo: Ctor
-  ~ground(){}; // todo: Dtor, again for clean up (if necessary)
-  void add_animal(some argument here); // todo: Add an animal
+
+//! la page doit faire du 500 par 500
+  ground(SDL_Surface* window_surface_ptr){
+    this->window_surface_ptr_ = window_surface_ptr;
+  };
+  ~ground();
+  // todo: Dtor, again for clean up (if necessary)
+  // type: 1 for sheep, 2 for wolf
+  void add_animal(int type)
+  {
+    if(type == 1)
+    {
+      animals.push_back(sheep(window_surface_ptr_));
+    }
+  }; // todo: Add an animal
   void update(){
+    SDL_Rect *rect_to_draw;
+    rect_to_draw->x = 0;
+    rect_to_draw->y = 0;
+    rect_to_draw->h = 500;
+    rect_to_draw->w = 500;
+    SDL_FillRect(window_surface_ptr_,rect_to_draw,SDL_MapRGB(window_surface_ptr_->format, 50, 255, 50));
+    for(auto i = animals.begin();i!=animals.end();++i)
+    {
+      i->move();
+      
+      i->draw();
+    }
+    };
   }; // todo: "refresh the screen": Move animals and draw them
   // Possibly other methods, depends on your implementation
-};
 
 // The application class, which is in charge of generating the window
 class application {
@@ -104,15 +145,32 @@ private:
   SDL_Event window_event_;
 
   // Other attributes here, for example an instance of ground
-
+  ground *_ground;
 public:
-  application(unsigned n_sheep, unsigned n_wolf); // Ctor
-  ~application();                                 // dtor
+  application(unsigned n_sheep, unsigned n_wolf){
+    window_ptr_ = SDL_CreateWindow("test project cpp", 0, 0, 500, 500, 0);
+    window_surface_ptr_ = SDL_GetWindowSurface(window_ptr_);
+    _ground = new ground(window_surface_ptr_);
+    for(int i = 0; i < n_sheep; i++) {
+      _ground->add_animal(1);
+    }
+    for(int i = 0; i < n_wolf; i++) {
+      _ground->add_animal(2);
+    }
+  };
+  ~application(){
+    delete(_ground);
+    SDL_DestroyWindow(window_ptr_);
+    SDL_FreeSurface(window_surface_ptr_);
+  };                
 
-  int loop(unsigned period); // main loop of the application.
-                             // this ensures that the screen is updated
-                             // at the correct rate.
-                             // See SDL_GetTicks() and SDL_Delay() to enforce a
-                             // duration the application should terminate after
-                             // 'period' seconds
+  int loop(unsigned period)
+  {
+    while(SDL_GetTicks()<period*1000)
+    {
+      SDL_Delay(1000);
+      _ground->update();
+      SDL_UpdateWindowSurface(window_ptr_);
+    }
+  };
 };

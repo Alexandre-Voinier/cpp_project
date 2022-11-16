@@ -31,6 +31,7 @@ namespace {
 SDL_Surface* load_surface_for(const std::string& path,
                               SDL_Surface* window_surface_ptr) {
 
+  return IMG_Load(path.c_str());
   // Helper function to load a png for a specific surface
   // See SDL_ConvertSurface
 }
