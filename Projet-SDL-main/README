@@ -1,0 +1,29 @@
+Hello!
+
+We only tested with Linux (Ubuntu 20.04)
+
+You can compile with `make` !
+launch with `./game`
+	i.e `./game 8 3 10`
+
+What we managed to do:
+- The sheeps actively flee wolves
+- Two sheeps of two different sex will spawn an other sheep if the female didn't spawn a sheep after a certain time
+- The wolves actively hunt sheeps when they see one (they can see sheeps from further)
+- A wolf that hasn't eaten a sheep in a long time will die 
+- The wolves will actively flee the player, thus allowing the player to really play and protect its sheeps
+- The score is displayed in the terminal. The game either ends after the time passed as argument, or if there are no more sheeps or no more wolves alive
+
+What we did not manage to do:
+- Only the sheperd dog is missing... We did not find a way to make the dog run in circle around the player.
+
+The code is organized as follow :
+
+ --- application
+ --- ground
+ --- interacting_object --- rendered_object --- moving_object --- animal --- sheep
+															   |		  |_ wolf
+															   |		  |_ sheperd_dog
+															   |
+															   |___ playable_character
+																	

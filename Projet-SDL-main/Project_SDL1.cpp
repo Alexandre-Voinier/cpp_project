@@ -8,6 +8,9 @@
 #include <cstdlib>
 #include <numeric>
 #include <random>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <stdexcept>
 #include <string>
 
 void init() {
@@ -21,21 +24,11 @@ void init() {
     throw std::runtime_error("init(): SDL_image could not initialize! "
                              "SDL_image Error: " +
                              std::string(IMG_GetError()));
+
+  // Initializes the random seed for the whole program
+  srand((unsigned) time(nullptr));
 }
 
-namespace {
-// Defining a namespace without a name -> Anonymous workspace
-// Its purpose is to indicate to the compiler that everything
-// inside of it is UNIQUELY used within this source file.
-
-SDL_Surface* load_surface_for(const std::string& path,
-                              SDL_Surface* window_surface_ptr) {
-
-  return IMG_Load(path.c_str());
-  // Helper function to load a png for a specific surface
-  // See SDL_ConvertSurface
+int randomIntBetween(int upper, int lower) {
+  return rand() % (upper + 1 - lower) + lower;
 }
-
-
-
-} // namespace
