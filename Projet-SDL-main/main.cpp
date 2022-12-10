@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string>
 
+
 int main(int argc, char* argv[]) {
 
   std::cout << "Starting up the application" << std::endl;
@@ -27,4 +28,5 @@ int main(int argc, char* argv[]) {
   SDL_Quit();
 
   return retval;
+
 }

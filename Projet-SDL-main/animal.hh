@@ -1,5 +1,4 @@
 #pragma once
-
 #include "moving_object.hh"
 #include <vector>
 
