@@ -21,6 +21,7 @@ int main(int argc, char* const argv[]) {
 
     if (argc != 4) {
         cout << "Usage: ./project_sdl <time> <nbSheep> <nbWolf>" << endl;
+        return 1;
     }
 
     srand(time(NULL));
