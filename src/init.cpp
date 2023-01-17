@@ -88,3 +88,47 @@ SDL_Texture* createWolfTexture(SDL_Renderer* renderer) {
 
     return wolfTexture;
 }
+
+// Create Shepherd Texture
+SDL_Texture* createShepherdTexture(SDL_Renderer* renderer) {
+    // Load the shepherd png
+    SDL_Surface* shepherdSurface = IMG_Load("shepherd.png");
+    if (shepherdSurface == NULL) {
+        cout << "Error loading shepherd image: " << IMG_GetError() << endl;
+        return NULL;
+    }
+
+    // Create the shepherd texture
+    SDL_Texture* shepherdTexture = SDL_CreateTextureFromSurface(renderer, shepherdSurface);
+    if (shepherdTexture == NULL) {
+        cout << "Error creating shepherd texture" << endl;
+        return NULL;
+    }
+
+    // Free the shepherd surface we don't need anymore
+    SDL_FreeSurface(shepherdSurface);
+
+    return shepherdTexture;
+}
+
+// Create Shepherd Dog Texture
+SDL_Texture* createShepherdDogTexture(SDL_Renderer* renderer) {
+    // Load the shepherd dog png
+    SDL_Surface* shepherdDogSurface = IMG_Load("shepherdDog.png");
+    if (shepherdDogSurface == NULL) {
+        cout << "Error loading shepherd dog image: " << IMG_GetError() << endl;
+        return NULL;
+    }
+
+    // Create the shepherd dog texture
+    SDL_Texture* shepherdDogTexture = SDL_CreateTextureFromSurface(renderer, shepherdDogSurface);
+    if (shepherdDogTexture == NULL) {
+        cout << "Error creating shepherd dog texture" << endl;
+        return NULL;
+    }
+
+    // Free the shepherd surface we don't need anymore
+    SDL_FreeSurface(shepherdDogSurface);
+
+    return shepherdDogTexture;
+}
